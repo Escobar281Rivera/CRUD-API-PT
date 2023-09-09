@@ -1,26 +1,30 @@
-import { Entity, PrimaryGeneratedColumn,Column,ManyToOne, RelationId } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, RelationId } from "typeorm";
 import { Rol } from "./Rol";
+import bcrypt from 'bcrypt'
 
 @Entity()
-export class User{
+export class User {
     @PrimaryGeneratedColumn()
     id: number
 
-    @ManyToOne(()=> Rol)
+    @ManyToOne(() => Rol)
     rol: Rol
 
     @RelationId((user: User) => user.rol)
     rolId: number
 
     @Column()
-    name: string
+    email: string
 
     @Column()
-    last:string
+    pass: string
 
-    @Column()
-    age: number
-
-    @Column({ default: true})
+    @Column({ default: true })
     state: boolean
+
+    //encriptacion de contraseña
+    hashPassword(): void {
+        const salt = bcrypt.genSaltSync(10)
+        this.pass = bcrypt.hashSync(this.pass, salt)
+    }
 }

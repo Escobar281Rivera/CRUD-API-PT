@@ -4,8 +4,6 @@ import { Router } from 'express'
 import routerRol from './roles.routes'
 import routerUser from './users.routes'
 
-
-
 dotenv.config()
 const URL = process.env.URL
 

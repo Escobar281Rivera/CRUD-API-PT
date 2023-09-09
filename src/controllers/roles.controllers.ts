@@ -1,19 +1,16 @@
 import {Request, Response} from "express";
-import{ rawListeners} from 'process'
-import { DataSource } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Rol } from "../models/Rol";
 
 class RolesController {
     //List
-    static listRoles = async(req: Request, res: Response) => {
+    static listRoles = async(_: Request, res: Response) => {
         const repoRoles = AppDataSource.getRepository (Rol)
 
         try {
             const roles = await repoRoles.find({
                 where: {state: true},
             })
-
             return roles
             ? res.json({
                 ok: true,
@@ -30,7 +27,7 @@ class RolesController {
     };
 
     //CREATE
-    static createRoles = async( req: Request, res: Response) => {
+    static createRol = async( req: Request, res: Response) => {
         const {rol} = req.body
         const repoRoles = AppDataSource.getRepository(Rol)
 
@@ -58,7 +55,7 @@ class RolesController {
         const repoRol = AppDataSource.getRepository(Rol);
         let role: Rol;
         try {
-            role = await repoRol.findOneOrFail({
+            role = await repoRol.findOne({
                 where: { id, state: true },
             });
             if (!role) {
@@ -84,10 +81,10 @@ class RolesController {
         const repoRol = AppDataSource.getRepository(Rol)
         try {
             const rol = await repoRol.findOne({
-                where: { id },
+                where: { id, state: true },
             });
             return rol
-                ? res.json({ ok: true, rol })
+                ? res.json({ ok: true, rol , msg: 'success'})
                 : res.json({ ok: false, msg: "The id dont exist" });
         } catch (e) {
             return res.json({
@@ -104,7 +101,7 @@ class RolesController {
 
         try {
             const rol = await repoRol.findOne({
-                where: {id},
+                where: {id, state: true},
             })
 
             if(!rol){
@@ -119,7 +116,7 @@ class RolesController {
         } catch ( e) {
             return res.json({
                 ok: false,
-                msg:'SERVER ERROR'
+                msg:`SERVER ERROR => ${e}`
             });
         }
     };
