@@ -6,7 +6,7 @@ import routerRol from './roles.routes'
 import routerUser from './users.routes'
 
 dotenv.config()
-const URL = process.env.URL
+const URL = process.env.URL || '/api/v1'
 
 const routes = Router()
 

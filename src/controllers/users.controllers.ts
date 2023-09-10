@@ -76,7 +76,7 @@ class UsersController {
             user.email = email
             user.pass = pass
             user.rol = existingRol
-            user.hashPassword
+            user.hashPassword()
             const savedUser = await repoUsers.save(user)
             savedUser.pass = undefined
 
